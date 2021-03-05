@@ -1,0 +1,9 @@
+{
+"newsapi" : {
+        "key" : "keykeykeykeykeykeyencoded"
+      , "owner" : "you@mail.zzz"
+      , "banner" : "powered by https://newsapi.org"
+      , "endpoint" : "https://newsapi.org/v2"
+      , "apikey" : "apikey"
+      }
+}

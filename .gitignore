@@ -1,0 +1,20 @@
+# Skip archive files
+Overpass.js
+Amadeus.js
+*.zip
+*.deprecated.*
+newskeys.json
+*.KEY
+*.key
+apis.json
+CONFIDENTIAL/*
+Lourah Log Book (LLB)/*
+Lourah FX/*
+Scrabble/*
+Vault/*
+libs/*
+ZimZity/*
+CheckList/*
+DemoJs/*
+Lourah IDE/*
+termux/*
