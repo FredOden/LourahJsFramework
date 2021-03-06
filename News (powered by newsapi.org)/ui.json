@@ -164,8 +164,8 @@
         ,"default" : "refreshing information list"
      }
     ,"@title" : {
-        "default" : "Lourah world news"
-       ,"fr" : "Lourah infos mondiales"
+        "default" : "Lourah world news V1.0"
+       ,"fr" : "Lourah infos mondiales V1.0"
      }
     ,"@welcome" : {
         "default" : "Welcome to Lourah\n\"World News\"\ndevelopped by Lourah\nPowered by LourahJsFramework & http://newsapi.org"

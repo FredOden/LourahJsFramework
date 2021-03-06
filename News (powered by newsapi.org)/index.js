@@ -8,8 +8,8 @@ powered by Reuters news Api : http://newsapi.org
 var frameworkDir = Lourah.jsFramework.parentDir();
 var Toast = Packages.android.widget.Toast;
 
-Activity.importScript(frameworkDir + "/Overview.js");
-Activity.importScript(frameworkDir + "/http.js");
+Activity.importScript(frameworkDir + "/Lourah.android.Overview.js");
+Activity.importScript(frameworkDir + "/Lourah.http.GET.js");
 
 
 
