@@ -1,7 +1,0 @@
-var Lourah = Lourah || {};
-(function () {
-Lourah.ide = Lourah.ide || {};
-if (Lourah.ide.Editor) return;
-
-
-})();
