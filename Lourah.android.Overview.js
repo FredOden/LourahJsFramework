@@ -7,7 +7,7 @@ if (Lourah.android.Overview === undefined) {
       var Method = Packages.java.lang.Method;
       var NoSuchMethodException = Packages.java.lang.NoSuchMethodException;
 
-      Lourah.android.R = Lourah.android.R || {};
+      //Lourah.android.R = Lourah.android.R || {};
 
       Activity.importScript(Lourah.jsFramework.parentDir() + "/Lourah.android.Internationalizer.js");
 

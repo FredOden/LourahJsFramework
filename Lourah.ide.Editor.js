@@ -5,7 +5,7 @@ var Lourah = Lourah || {};
 
     Activity.importScript(Lourah.jsFramework.parentDir() + "/android.app.Dialog.js");
 
-    Activity.importScript(Lourah.jsFramework.parentDir() + "/Overview.js");
+    Activity.importScript(Lourah.jsFramework.parentDir() + "/Lourah.android.Overview.js");
     Activity.importScript(Lourah.jsFramework.parentDir() + "/Lourah.ide.Languages.NEW.js");
     Activity.importScript(Lourah.jsFramework.parentDir() + "/Lourah.ide.JsEngine.js");
 
