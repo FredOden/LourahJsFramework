@@ -37,7 +37,7 @@ var ext = 0;
 //var smoothing = 20;
 const G = {
   history: 120
-  ,smoothing: 20
+  ,smoothing: 7
   };
 
 function gridAlign (row, col, wid) {
@@ -491,18 +491,18 @@ function doPalmares(imageView, title, kind, rate) {
       ,title
       ,[
         { name: "France", color: Color.CYAN }
-        //,{ name: "Luxembourg", color: Color.argb(255,0,255,0) }
-        ,{ name: "Spain", color: Color.argb(255,255,140,0) }
+        ,{ name: "Albania", color: Color.argb(255,0,255,0) }
+        ,{ name: "Austria", color: Color.argb(255,255,140,0) }
         ,{ name: "Germany", color: Color.WHITE }
         ,{ name: "World", color: Color.MAGENTA }
         ,{ name: "Switzerland", color: Color.GRAY }
-        ,{ name: "Belgium", color: Color.RED }
-        ,{ name: "Ireland", color: Color.argb(255,255,0,127)}
-        //,{ name: "Russia", color: Color.argb(255,255,0,167)}
-        ,{ name: "Sweden", color: Color.argb(255,200,124,254)}
-        ,{ name: "United Kingdom", color: Color.argb(255,124,234,172)}
-        ,{ name: "Italy", color: Color.argb(255,124*1.5,34*1,172*1.2)}
-        ,{ name: "Czechia", color: Color.argb(255,24,134,172)}
+        ,{ name: "Hungary", color: Color.RED }
+        ,{ name: "Romania", color: Color.argb(255,255,0,127)}
+        ,{ name: "Montenegro", color: Color.argb(255,255,0,167)}
+        ,{ name: "Bulgaria", color: Color.argb(255,200,124,254)}
+        ,{ name: "Italy", color: Color.argb(255,124,234,172)}
+        ,{ name: "Turkey", color: Color.argb(255,124*1.5,34*1,172*1.2)}
+        ,{ name: "Greece", color: Color.argb(255,24,134,172)}
         /**/
         ]
       , kind
