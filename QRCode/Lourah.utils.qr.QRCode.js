@@ -381,7 +381,6 @@ Activity.importScript(
 
         paints.forEach((paint, i) => {
             paint.setStyle(android.graphics.Paint.Style.FILL);
-            console.log("i::" + i + "::" + colors[i]);
             paint.setColor(colors[i]);
             });
 

@@ -1,4 +1,3 @@
-//
 Activity.importScript(Lourah.jsFramework.parentDir() + "/$Q.js");
 
 var say = (text) => {Lourah.jsFramework.mainThread(() => console.log(text)); return text};
