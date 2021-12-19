@@ -11,13 +11,14 @@ find . -name '*.js' -print|while read path; do
 		continue;
 	fi
 	#echo $file'::'$target
-	s1=`stat --printf=%s "$file"`
-	s2=`stat --printf=%s "$target"`
+	#s1=`stat --printf=%s%Y "$file"`
+	#s2=`stat --printf=%s%Y "$target"`
 	#echo $s1"::"$s2
 	#continue
-	if [ $s1 -ne $s2 ]; then
-		echo $file":"$s1"::"$s2
-		diff "$file" "$target"
-	fi
+	diff "$file" "$target" || echo $file
+	#if [ $s1 -ne $s2 ]; then
+	#	echo $file":"$s1"::"$s2
+	#	diff "$file" "$target"
+	#fi
 done
 

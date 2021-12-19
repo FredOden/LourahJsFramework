@@ -7,7 +7,7 @@ try {
   Activity.importScript(
     Lourah.jsFramework.dir()
     +
-    "/covid-19-Analyzer V4.0.js"
+    "/covid-19-Analyzer V5.0.js"
     );
   } catch(e) {
   Activity.reportError("COVID-19::" + e + "::");
