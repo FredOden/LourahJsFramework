@@ -204,7 +204,7 @@ var screen = {
             ,setLayoutParams: gridAlign(1, 2)
             ,$sHistory: {
               class: android.widget.SeekBar
-              , setMax: 365
+              , setMax: 1000
               , setProgress: G.history
               , setMin: 10
               , incrementProgressBy: 5
