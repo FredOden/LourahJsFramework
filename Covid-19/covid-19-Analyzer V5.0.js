@@ -432,7 +432,7 @@ function doReport(country, imageView) {
         progression = progression/progressionWindow;
         last[kind].mean.progression = progression;
         setStatus("<h2>" + spanText("zoom", kind) + "::"
-          + last[kind].total + " [pop:<span class='emphase'>"
+          + last[kind].total + " [<span class='emphase'>"
             + (last[kind].total * 100/data[data.length - 1].Population).toFixed(2)
             + "%</span>]"
           + " (+"
@@ -733,7 +733,17 @@ function drawPalmares(imageView, title, countries, kind, smoothing) {
       var y = 0;
       var score = 0;
       var kSmooth = 1000000/(smoothing * data[data.length - 1].Population);
-      for(var i = Math.max(data.length - G.history,0); i < data.length; i++) {
+	var startX = Math.max(
+		data.length - G.history
+		, 0);
+	console.log(
+    "startX::" + startX
+    + "::" + data.length 
+    + "::" + G.history
+    );
+    var lengthX = data.length - startX;
+    country.serial = new Array(lengthX);
+      for(var i = startX; i < data.length; i++) {
         switch(kind) {
           case "Deaths":
           case "Cases":
@@ -744,7 +754,7 @@ function drawPalmares(imageView, title, countries, kind, smoothing) {
             if (i === 0 || data[i - 1].computed[kind].total === 0) {
               y = 0;
               } else {
-              var yLast = y;
+              //var yLast = y;
               y = 0;
               var d = 0;
               for(var j = 0; j < smoothing; j++) {
@@ -770,7 +780,7 @@ function drawPalmares(imageView, title, countries, kind, smoothing) {
           break;
           default: throw "doPalmares::" + kind + "::unmanaged kind";
           }
-        country.serial.push([i - data.length + 1, y]);
+        country.serial[i - startX] = ([i - data.length + 1, y]);
         if (y > maxY) maxY = y;
         //if (y < minY) minY = y;
         }
