@@ -251,7 +251,7 @@ var Lourah = Lourah || {};
         }
       }
 
-    function Layer(c2d) {
+    Lourah.graphics.g2d.Layer = function Layer(c2d) {
       var viewPort = {};
       var rotation;
       var translation;
