@@ -83,7 +83,6 @@ var Lourah = Lourah || {};
 
 		this.setOnTouchListener = (otl) => {
 			onTouchListener = otl;
-			console.log("@@@Registering onTouchListener");
 			imageView.setOnTouchListener({
 				onTouch: (view, motionEvent) => {
 					try {
