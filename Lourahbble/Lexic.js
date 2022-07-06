@@ -1,4 +1,4 @@
-function loadLexic(game) {
+function Lexic(game) {
 	var System = java.lang.System;
 
 	function string2Path(string, path) {
@@ -34,7 +34,7 @@ function loadLexic(game) {
 		}
 
 
-		//Activity.reportError("ods::" + JSON.stringify(atoms));
+		//Activity.reportError("lexic::" + JSON.stringify(atoms));
 
 		//Activity.reportError("done::" + Object.keys(atoms).length);
 		top = System.currentTimeMillis();
@@ -72,13 +72,69 @@ function loadLexic(game) {
 		log("json::words::" + game.lexic.words.length);
 	}
 
-	var json = new java.io.File(game.lexic.path.json);
+	this.load = () => {
+		var json = new java.io.File(game.lexic.path.json);
 
-	if (json.isFile() && json.canRead()) {
-		loadLexicJson();
+		if (json.isFile() && json.canRead()) {
+			loadLexicJson();
+		}
+		else {
+			loadLexicTxt();
+		}
 	}
-	else {
-		loadLexicTxt();
+
+	function Solution(w) {
+		this.points = 0;
+		w.split('').forEach(l => this.points += game.weights[l]);
+		this.toString = () => "[" + w + "] => " + this.points;
+		this.length = w.length;
+		this.word = w;
 	}
+
+	function atomicSolutionsOf(lexic, hand, line, before, after) {
+		var solutions = [];
+
+		//. "123456789012345"
+		//line="*E**T**ARRANGE*";
+		//log("hand::'"+ hand + "'");
+		var pattern = "^";
+		if (line) {
+			line.split('').forEach(c => pattern += (c.match(/[A-Z]/))?c:'.');
+			log("::"+line+"::"+pattern);
+		}
+
+		var k = hand.toUpperCase().split('');
+		Lourah.util.Arrays.powerSetValidated(k, (set, combination) => {
+			var a = lexic.atoms[combination.sort().join('')];
+			if (a !== undefined && set.indexOf(a) === -1) return a;
+		}).forEach(e => e.split(',').forEach(idx => solutions.push(new Solution(lexic.words[parseInt(idx, 36)]))));
+		//solutions.sort((a,b) => b.points - a.points);
+		//log("solutions::" + solutions);
+		return solutions;
+	}
+
+	function compoundSolutionsOf(lexic, hand, line, before, after) {
+		var solutions = [];
+		var wildCard = hand.indexOf('*');
+		if (wildCard === -1) {
+			solutions = atomicSolutionsOf(lexic, hand, line, before, after);
+		}
+		else {
+			var modifiedHand = hand.replace('*','');
+
+			for(var i = 0; i < game.alphabet.length; i++) {
+				solutions = solutions.concat(compoundSolutionsOf(lexic, modifiedHand + game.alphabet[i], line, before, after));
+				//log("tried::" + game.alphabet[i] + "::" + solutions.length);
+			}
+		}
+		solutions.sort((a, b) => b.points - a.points);
+		return solutions;
+	}
+
+	this.solutionsOf = function (hand, line, before, after) {
+		return compoundSolutionsOf(game.lexic, hand, line, before, after);
+	}
+
+
 }
 

@@ -2,7 +2,7 @@
 Activity.importScript(Lourah.jsFramework.parentDir() + "/Lourah.android.Overview.js");
 Activity.importScript(Lourah.jsFramework.parentDir() + "/Arrays.js");
 Activity.importScript(Lourah.jsFramework.parentDir() + "/Lourah.graphics.Color.js");
-Activity.importScript(Lourah.jsFramework.dir() + "/lexic.js");
+Activity.importScript(Lourah.jsFramework.dir() + "/Lexic.js");
     
 Lourah.jsFramework.setOnBackButtonListener(() => {
 	return false;
@@ -46,5 +46,8 @@ function log(t) {
 }
 
 function playLourahbble(language) {
-	loadLexic(Lourahbble[language]);
+	var lexic = new Lexic(Lourahbble[language]);
+	lexic.load();
+	var solutions = lexic.solutionsOf("Hello");
+	solutions.forEach((s) => console.log(s));
 }
