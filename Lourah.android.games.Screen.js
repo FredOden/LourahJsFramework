@@ -15,6 +15,8 @@ var Lourah = Lourah || {};
 	if (Lourah.android.games.Screen) {return;}
 
 	Activity.importScript(Lourah.jsFramework.parentDir() + '/Lourah.graphics.g2d.js');
+    Activity.importScript(Lourah.jsFramework.parentDir() + '/Lourah.android.graphics.Paint.js');
+    
 
 	var context = Activity.getApplicationContext();
 
@@ -49,6 +51,9 @@ var Lourah = Lourah || {};
 		var bitmap;
 		var canvas;
 		var handler;
+  var name = "pane";
+      this.getName = () => name;
+      this.setName = (n) => name = n;
 		var onTouchListener;
 		var id = android.view.View.generateViewId();
 		imageView.setId(id);

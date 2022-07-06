@@ -61,7 +61,7 @@ var paintMotion = Lourah.graphics.g2d.buildPaint({
     });
 
 
-/*
+
 pane0.setHandler((pane) => {
     var canvas = pane.getCanvas();
 
@@ -138,7 +138,7 @@ pane2.setHandler((pane) => {
     });
 screen.addPane(pane2);
 
-*/
+
 var paintBorderLight = Lourah.graphics.g2d.buildPaint({
     style: android.graphics.Paint.Style.STROKE
     ,color: android.graphics.Color.LTGRAY
@@ -152,36 +152,121 @@ var paintBorderDark = Lourah.graphics.g2d.buildPaint({
     });
 
 
-function Cell(i, xStep, yStep) {
+
+var cells= [];
+
+function Cell(i, xStep, yStep, targets) {
   var pane = new Lourah.android.games.Screen.Pane();
   pane.setFrame(i*xStep, screen.getHeight() - 2*yStep, .9*xStep, yStep);
-  //console.log("Cell(" + [i, i*xStep,screen.getHeight() - 2*yStep] + ")");
+  pane.setName("Cell");
+  var canvas;
+  var targetPanes = [];
+
+  var paintText;
+  var paintBackground = (new Lourah.android.graphics.Paint()).$({
+      setStyle: android.graphics.Paint.Style.FILL
+      ,setColor: android.graphics.Color.parseColor('#ff00ff7f')
+      ,setShadowLayer: [1,-10,10,android.graphics.Color.BLACK]
+      });
   
+  
+  var xText, yText;
+
+  this.onResize = (xStep, yStep) => {
+    
+    canvas = pane.getCanvas();
+    
+    paintText =  (new Lourah.android.graphics.Paint()).$({
+        setStyle: android.graphics.Paint.Style.FILL
+        ,setColor: android.graphics.Color.MAGENTA
+        ,setTextSize: (xStep + yStep) /2
+        ,setStrokeWidth: 0
+        ,setTextAlign: android.graphics.Paint.Align.CENTER
+        ,setShadowLayer: [20, -10, 10, android.graphics.Color.BLACK]
+        });
+
+
+    [xText, yText] = [
+      canvas.getWidth()/2
+      , canvas.getHeight()/2
+      - (
+        paintText.descent()
+        +
+        paintText.ascent()
+        )/2
+      ];
+    /**/
+    };
+
+
+  this.getPane = () => pane;
+
+  var initialPosition;
+
+  this.addTargets = (t) => targetPanes = targetPanes.concat(t);
+
+  this.addTargets(targets);
+  //console.log("Cell(" + [i, i*xStep,screen.getHeight() - 2*yStep] + ")");
+
   this.paintCell = (text) => {
-    var c = pane.getCanvas();
-    c.drawColor(android.graphics.Color.GREEN
-      //,android.graphics.PorterDuff.Mode.CLEAR
-      );
-    c.drawText(text, 0, .8*yStep, paintLetter);
+    if (!canvas) this.onResize(xStep, yStep);
     
-    c.drawLine(0,5,pane.getWidth(), 5, paintBorderLight);
-    c.drawLine(pane.getWidth() - 5, 0, pane.getWidth() - 5, pane.getHeight(), paintBorderLight);
-    c.drawLine(pane.getWidth(),pane.getHeight() - 5, 0, pane.getHeight() - 5, paintBorderDark);
-    c.drawLine(5, pane.getHeight(), 5, 0, paintBorderDark);
-    
+    canvas.drawRect(5, 0, canvas.getWidth() -5, canvas.getHeight() -5, paintBackground);
+    canvas.drawText(text, xText, yText, paintText);
+
     pane.rotate(i);
     pane.flush();
     }
-  
+
   pane.setHandler((pane) => {
       var f = pane.getFrame();
-      const initialPosition = [f.x, f.y];
+      initialPosition = [f.x, f.y];
 
       pane.setOnTouchListener((pane, me) => {
           var x, y;
           var f = pane.getFrame();
           if (me.getAction() === android.view.MotionEvent.ACTION_UP) {
             [x, y] = initialPosition;
+            if (targetPanes) {
+              //console.log("targetPanes.length::" + targetPanes.length);
+              for(var idx = 0; idx < targetPanes.length; idx++) {
+                //console.log("try::" + idx + "::" + targetPanes[idx].getName());
+                var tf = targetPanes[idx].getFrame();
+                var [rx, ry] = [me.getRawX(), me.getRawY()]
+                /*
+                console.log("check target::" + idx
+                  + "::" + [rx, ry]
+                  + "::" + [tf.x, tf.y]
+                  + "::" + [tf.x + tf.width, tf.y + tf.height]
+                  );
+                */
+                if (rx < tf.x || rx > (tf.x + tf.width)) continue ;
+                if (ry < tf.y || ry > (tf.y + tf.height)) continue;
+                //console.log("matched::" + idx);
+                var tn = targetPanes[idx].getName();
+                //console.log("tn::<" + tn + ">");
+                if (tn === "Cell") {
+                  //console.log("target is Cell");
+                  [x, y] = [tf.x, tf.y];
+                  [tf.x, tf.y] = initialPosition;
+
+                  targetPanes[idx].setFrame(
+                    tf.x
+                    ,tf.y
+                    ,tf.width
+                    ,tf.height
+                    );
+                  targetPanes[idx].updateFrame();
+                  }
+                else {
+                  [x, y] = [
+                    tf.x + (tf.width - f.width)/2
+                    ,tf.y + (tf.height - f.height)/2
+                    ];
+                  }
+                break;
+                }
+              }
             } else {
             [x, y] = [
               f.x + me.getX() - f.width/2
@@ -203,18 +288,22 @@ function Cell(i, xStep, yStep) {
   screen.addPane(pane);
   }
 
-var cells= [];
+
 const MAX_CELLS = 10;
 
 var [xStep, yStep] = [
   Math.floor(screen.getWidth()/MAX_CELLS)
   ,Math.floor(screen.getHeight()/MAX_CELLS)
   ];
+
+var targets = [];
 for (var i = 0; i < MAX_CELLS; i++) {
-  cells.push(new Cell(i, xStep, yStep));
+  var c;
+  cells.push((c = new Cell(i, xStep, yStep, [pane0, pane1])));
+  targets.push(c.getPane());
   }
 
-
+cells.forEach((cell) => {cell.addTargets(targets);})
 
 
 Activity.setTitle("gametest.js");
