@@ -280,6 +280,7 @@ function Cell(i, xStep, yStep, targets) {
             ,f.height
             );
           //console.log(i + "::" + android.view.MotionEvent.actionToString(me.getAction()) + "(" + [x,y] + ")");
+          pane.getView().bringToFront();
           pane.updateFrame();
           return true;
           });

@@ -31,7 +31,7 @@ function Bag(game) {
 		var l = bag[idx];
 		bag = bag.slice(0, idx).concat(bag.slice(idx+1));
 		//log("bag[" + idx +"::'" + l + "'->'" + bag + "'");
-		return l;
+		return {letter:l, weight:game.weights[l]};
 	};
 
 	this.reset();
