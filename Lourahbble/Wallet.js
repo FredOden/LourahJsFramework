@@ -49,6 +49,8 @@ function Wallet(currency, owner, implementer) {
     return account.balance;
     }
 
+  this. getCurrency = () => { return currency; };
+  this. getUsername = () => { return username; };
   this.toString = () => JSON.stringify(account);
   try {
     account = implementation.load();

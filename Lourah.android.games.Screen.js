@@ -46,8 +46,9 @@ var Lourah = Lourah || {};
 			}
 		}
 	}
-	Lourah.android.games.Screen.Pane = function() {
-		var imageView = new android.widget.ImageView(context);
+	Lourah.android.games.Screen.Pane = function(widget) {
+      
+		var imageView = widget?new widget(context):new android.widget.ImageView(context);
 		var bitmap;
 		var canvas;
 		var handler;
