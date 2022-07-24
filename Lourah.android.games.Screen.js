@@ -52,6 +52,8 @@ var Lourah = Lourah || {};
 		var bitmap;
 		var canvas;
 		var handler;
+      var source;
+      this.setSource = (sourceFile) => source = sourceFile;
   var name = "pane";
       this.getName = () => name;
       this.setName = (n) => name = n;
@@ -133,7 +135,14 @@ var Lourah = Lourah || {};
 							// BEWARE the variable viewTreeObserver might not reference the appropriate ViewTreeObserver instance
 							//        better to require the correct one from view.getViewTreeObserver()
 							imageView.getViewTreeObserver().removeOnGlobalLayoutListener(gll);
+                  if (source) {
+                    var sBitmap = android.graphics.BitmapFactory.decodeFile(source.getAbsolutePath());
+                    // to mutable
+                    //bitmap = sBitmap.copy(android.graphics.Bitmap.Config.ARGB_8888, true);
+                    bitmap = android.graphics.Bitmap.createScaledBitmap(sBitmap, imageView.width, imageView.height, false);
+                    } else {
 							bitmap = android.graphics.Bitmap.createBitmap(imageView.width, imageView.height, android.graphics.Bitmap.Config.ARGB_8888);
+                    }
 							canvas = new android.graphics.Canvas(bitmap);
 							//imageView.setImageBitmap(bitmap);
 							if (handler) {

@@ -9,11 +9,11 @@ function Bag(game) {
 			size += game.count[k];
 		}
 		bag = new Array(size);
-		var alphabet = game.alphabet.join();
+		var alphabet = game.alphabet.slice();
 		var count = Bag.deepCopy(game.count);
 		var l;
 		for(var i = 0; i<size; i++) {
-			l = alphabet.chaAt(random(0, alphabet.length));
+			l = alphabet.charAt(Bag.random(0, alphabet.length));
 			bag[i] = l;
 
 			count[l]--;
@@ -27,7 +27,7 @@ function Bag(game) {
 
 	this.pickLetter = function() {
 		if (bag.length === 0) return null;
-		var idx = random(0, bag.length);
+		var idx = Bag.random(0, bag.length);
 		var l = bag[idx];
 		bag = bag.slice(0, idx).concat(bag.slice(idx+1));
 		//log("bag[" + idx +"::'" + l + "'->'" + bag + "'");
