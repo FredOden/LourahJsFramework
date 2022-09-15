@@ -34,7 +34,9 @@ Activity.importScript(Lourah.jsFramework.dir() + '/Lourahbble.fr.js');
         ,__,W2,__,__,__,L3,__,__,__,L3,__,__,__,W2,__
         ,W3,__,__,L2,__,__,__,W3,__,__,__,L2,__,__,W3
         ]
-      ,Cell: function(idx, column, row, x, y) {
+    };
+
+    Lourahbble.boad.Cell = function(idx, column, row, x, y) {
         var letter;
         var locked = false;
         this.idx = idx;
@@ -50,7 +52,6 @@ Activity.importScript(Lourah.jsFramework.dir() + '/Lourahbble.fr.js');
         this.getLetter = () => letter;
         this.layout = Lourahbble.board.layout[this.idx];
         }
-      };
 
     Lourahbble.board.Cell.Type = {
       L2:L2
@@ -62,7 +63,6 @@ Activity.importScript(Lourah.jsFramework.dir() + '/Lourahbble.fr.js');
 
 
     var panesTo = {
-      //cell: new Map()
       letter: new Map()
       };
 
