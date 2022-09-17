@@ -1,6 +1,7 @@
 var Lourah = Lourah || {};
 
 (function () {
+	if (Lourah.music) return;
     Lourah.music = Lourah.music || {};
     var sampleRate = 8000;
     var numSamples = sampleRate;
@@ -54,20 +55,28 @@ var Lourah = Lourah || {};
       var tempo = orchestra.getTempo();
       var deciSize = orchestra.getDeciSize();
       var millis = 1000/sampleRate;
+	    var fullRange = 64*deciSize;
+	    
+	    var count = 0;
       console.log("millis::" + millis);
+      console.log("fullRange::" + fullRange);
       function sampling(note, octave) {
+	      var start = java.lang.System.currentTimeMillis();
         var k = (Math.pow(2, octave - 3) * TWO_PI * note)/sampleRate;
         //console.log("k::" + k + "::" + octave + "::" + note);
         var sound = new java.lang.reflect.Array.newInstance(
-          java.lang.Short.TYPE, (64*deciSize)|0
+          java.lang.Short.TYPE, (fullRange)|0
           );
 
         var idx = 0;
         var f = instrument.getFShape();
-        for(var i = 0; i < 64*deciSize; i++) {
+        for(var i = 0; i < fullRange; i++) {
           dval = f(k * i, i * millis);
           sound[i] = (dval * 32767)|0;
           }
+	      var top = java.lang.System.currentTimeMillis() - start;
+	      count++;
+	      console.log("Sampling::" + count + "::<" + octave + note + ">::" + top);
         return sound;
         }
 
@@ -261,7 +270,7 @@ var Lourah = Lourah || {};
         orchestra.begin();
         opus.players.forEach(player => {
             player.p = new Lourah.music.Player(
-              opus.instruments[player.instrument]
+              player.instrument
               ,orchestra
               );
             player.p.init();
