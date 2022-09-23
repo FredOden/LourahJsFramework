@@ -3,11 +3,11 @@ var Lourah = Lourah || {};
     
     Lourah.utils = Lourah.utils || {};
     Lourah.utils.text = Lourah.utils.text || {};
-    Lourah.utils.text.numbers = Lourah.utils.text.numbers || {};
+    Lourah.utils.text.number = Lourah.utils.text.number || {};
     
-    if (Lourah.utils.text.numbers.Stringifier) return;
+    if (Lourah.utils.text.number.Stringifier) return;
     
-    Lourah.utils.text.numbers.Stringifier = {};
+    Lourah.utils.text.number.Stringifier = {};
     
     const vingt = [
       ""
@@ -154,7 +154,7 @@ var Lourah = Lourah || {};
       return ret.replace(/\s+/g, " ");
       }
 
-    Lourah.utils.text.numbers.Stringifier.translateAmount = function translateAmount(language, currency, subCurrency, weight, amount) {
+    Lourah.utils.text.number.Stringifier.translateAmount = function translateAmount(language, currency, subCurrency, weight, amount) {
       var cents = (Math.round(amount * weight)) % weight;
       var integer = Math.floor(amount);
       var ret = translate(integer, language) + " " + currency;
@@ -166,5 +166,5 @@ var Lourah = Lourah || {};
 
     }) ();
 
-console.log(Lourah.utils.text.numbers.Stringifier.translateAmount("en", "Dollar", "cent", 100, 91201467811.206));
-console.log(Lourah.utils.text.numbers.Stringifier.translateAmount("fr", "Euro", "Centime", 100, 91201467811.206));
+//console.log(Lourah.utils.text.number.Stringifier.translateAmount("en", "Dollar", "cent", 100, 91201467811.206));
+//console.log(Lourah.utils.text.number.Stringifier.translateAmount("fr", "Euro", "Centime", 100, 91201467811.206));

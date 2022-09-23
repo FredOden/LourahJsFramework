@@ -19,3 +19,6 @@ DemoJs/*
 Lourah IDE/*
 termux/*
 Lourah.RCS/*
+Quittances/*.tenant
+Quittances/*.owner
+Quittances/*.pdf
