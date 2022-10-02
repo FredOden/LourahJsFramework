@@ -19,6 +19,51 @@ var Lourah = Lourah || {};
 	}
 
 
+	PdfDocument.OperatorSequence = function() {
+		var operatorSequence = "";
+		operator = (params, operation) => {
+			operatorSequence += params.join(" ") + " " + operation + "\n";
+			return this;
+		}
+		// Graphics state
+		//   General
+		this.w = (lineWidth) => operator([lineWidth], "w"); // set line width
+		this.J = (lineCap) => operator([lineCap], "J"); // set cap style
+		this.j = (lineJoin) => operator([lineJoin], "j"); // set join style
+		this.M = (miterLimit) => operator([miterLimit], "M"); // set miter limit
+		this.d = (dashArray, dashPhase) => operator([dashArray, dashPhase], "d"); // set dash pattern
+		this.ri = (intent) => operator([intent], "ri"); // set color rendering intent
+		this.gs = (dictName) => operator([dictName], "gs"); // set graphics state parameters
+		//   Special
+		this.q = () => operator([""], "q");
+		this.Q = () => operator([""], "Q");
+		this.cm = (a, b, c, d, e, f) => operator([a, b, c, d, e, f], "cm");
+		// Images
+		this.Do = (name) => operator([name], "Do");
+		this.BI = () => operator([""], "BI");
+		this.ID = () => operator([""], "ID");
+		this.EI = () => operator([""], "EI");
+		// Path
+		//   Construction
+		this.m = (x, y) => operator([x, y], "m");
+		this.l = (x, y) => operator([x, y], "l");
+		this.c = (x1, y1, x2, y2, x3, y3) => operator([x1, y1, x2, y2, x3, y3], "c");
+		this.v = (x2, y2, x3, y3) => operator([x2, y2, x3, y3], "v");
+		this.y = (x1, y1, x3, y3) => operator([x1, y1, x3, y3], "y");
+		this.h = () => operator([""], "h");
+		this.re = (x, y, width, height) => operator([x, y, width, height], "re");
+		//  Clipping
+		this.W = () => operator([""], "W");
+		this.Wstar = this["W*"] = () => operator([""], "W*");
+		//  Painting
+		["S", "s", "f", "F", "f*", "B", "B*", "b", "b*", "n"].forEach(op => {
+			this[op] = () => operator([""], op);
+		});
+		// Text
+		// 
+	/**/
+	}
+
 	PdfDocument.Stream = function() {
 		var stream = [];
 		this.add = (command) => {
