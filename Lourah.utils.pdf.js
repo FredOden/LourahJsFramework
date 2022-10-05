@@ -18,6 +18,14 @@ var Lourah = Lourah || {};
 		}
 	}
 
+	PdfDocument.toHexString = (str) => {
+		var h ="<";
+		for(var i = 0; i<str.length; i++) {
+			h += str.charCodeAt(i).toString(16);
+		}
+		h += ">";
+		return h;
+	}
 
 	PdfDocument.OperatorSequence = function() {
 		var operatorSequence = "";
@@ -61,7 +69,49 @@ var Lourah = Lourah || {};
 		});
 		// Text
 		// 
+		this.BT = () => operator([""], "BT");
+		this.ET = () => operator([""], "ET");
+		//   state
+		["Tc", "Tw", "Tz", "TL", "Tr", "Ts"].forEach(op => {
+			this[op] = param => operator([param], op);
+		});
+		this.Tf = (font, size) => operator([font, size], "Tf");
+		//  Positioning
+		this.Td = (tx, ty) => operator([tx, ty], "Td");
+		this.TD = (tx, ty) => operator([tx, ty], "TD");
+		this.Tm = (a, b, c, d, e, f) => operator([a, b, c, d, e, f], "Tm");
+		this.Tstar = this["T*"] = () => operator([""], "T*");
+		//  Showing
+		this.Tj = (string) => operator([string], "Tj");
+		this["'"] = this.quote = (string) => operator([string], "'");
+		this['"'] = this.quote = (wordSpacing, characterSpacing, string) => operator([wordSpacing, characterSpacing, string], '"');
+		this.TJ = (array) => operator(array, "TJ");
+		// Color
+		//   Stroking, fill
+		["CS", "cs"].forEach(op => this[op] = (colorSpace) => operator([colorSpace], op));
+		["SC", "sc"].forEach(op => this[op] = (colorArray) => operator(colorArray, op));
+		["SCN", "scn"].forEach(op => this[op] = (colorArray) => operator(colorArray, op));
+		["G", "g"].forEach(op => this[op] = (gray) => operator([gray], op));
+		["RG", "rg"].forEach(op => this[op] = (r, g, b) => operator([r, g, b], op));
+		["K", "k"].forEach(op => this[op] = (c, m, y, k) => operator([c, m, y, k], op));
+		// Misc
+		//  Type 3 fonts
+		this.dO = (wx, wy) => operator([wx, wy], "dO");
+		this.di = (wx, wy, llx, lly, urx, ury) => operator([wx, wy, llx, lly, urx, ury], "di");
+		//  Marked content
+		this.MP = (tag) => operator([tag], "MP");
+		this.DP = (tag, props) => operator([tag, props], "DP");
+		this.BMC = (tag) => operator([tag], "BMC");
+		this.DMC = (tag, props) => operator([tag, props], "DMC");
+		this.EMC = () => operator([""], "EMC");
+		//  Other
+		this.sh = (name) => operator([name], "sh"); // paint shading to clipping path
+		this.BX = () => operator([""], "BX"); // begin compatibility section
+		this.EX = () => operator([""], "EX"); // end compatibility section
 	/**/
+		this.flush = () => operatorSequence;
+		this.toString = () => operatorSequence;
+		this.clear = () => { operatorSequence = ""; return this; };
 	}
 
 	PdfDocument.Stream = function() {
